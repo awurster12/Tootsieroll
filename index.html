@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tootsie Roll Program Report – FAQ | Wisconsin KofC</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f2f5;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      background: #1a2a4a;
+      color: #c9a84c;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 16px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #1a2a4a 0%, #243660 100%);
+      color: #fff;
+      padding: 44px 24px 36px;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+
+    header .emblem {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    header h1 span {
+      color: #c9a84c;
+    }
+
+    header p.subtitle {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      max-width: 600px;
+      margin: 10px auto 0;
+      line-height: 1.6;
+    }
+
+    .header-link {
+      display: inline-block;
+      margin-top: 18px;
+      background: #c9a84c;
+      color: #1a2a4a;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 10px 22px;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: background 0.2s;
+    }
+    .header-link:hover { background: #e0bc6a; }
+
+    /* ── Gold divider ── */
+    .divider {
+      height: 5px;
+      background: linear-gradient(90deg, #1a2a4a, #c9a84c, #1a2a4a);
+    }
+
+    /* ── Video callout ── */
+    .video-callout {
+      background: #fff;
+      border-left: 5px solid #c9a84c;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+    }
+    .video-callout .icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .video-callout p {
+      font-size: 0.92rem;
+      color: #333;
+      line-height: 1.5;
+    }
+    .video-callout a {
+      color: #1a2a4a;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* ── Main content ── */
+    main {
+      max-width: 840px;
+      margin: 44px auto;
+      padding: 0 20px 60px;
+    }
+
+    /* ── FAQ accordion ── */
+    .faq-group {
+      margin-bottom: 38px;
+    }
+
+    .faq-group h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a2a4a;
+      border-left: 4px solid #c9a84c;
+      padding-left: 12px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .faq-item {
+      background: #fff;
+      border: 1px solid #dde2ea;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 3px 10px rgba(0,0,0,0.11);
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 17px 20px;
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: #1a2a4a;
+      text-align: left;
+      gap: 12px;
+      transition: background 0.15s;
+    }
+
+    .faq-question:hover { background: #f4f6fb; }
+
+    .faq-question.open {
+      background: #f4f6fb;
+      color: #1a2a4a;
+    }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #1a2a4a;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      transition: transform 0.3s, background 0.2s;
+    }
+
+    .faq-question.open .faq-icon {
+      transform: rotate(45deg);
+      background: #c9a84c;
+      color: #1a2a4a;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.25s ease;
+      padding: 0 20px;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: #444;
+      border-top: 0px solid #eee;
+    }
+
+    .faq-answer.open {
+      max-height: 700px;
+      padding: 4px 20px 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .faq-answer ul {
+      padding-left: 20px;
+      margin-top: 6px;
+    }
+
+    .faq-answer li { margin-bottom: 4px; }
+
+    .faq-answer a {
+      color: #1a2a4a;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .faq-answer .note {
+      background: #f4f6fb;
+      border-left: 3px solid #c9a84c;
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: #555;
+    }
+
+    /* ── Step badge ── */
+    .step {
+      display: inline-block;
+      background: #1a2a4a;
+      color: #c9a84c;
+      font-weight: 700;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      padding: 2px 7px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    /* ── Contact banner ── */
+    .contact-banner {
+      background: linear-gradient(135deg, #1a2a4a, #243660);
+      color: #fff;
+      border-radius: 10px;
+      padding: 28px 32px;
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    .contact-banner h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #c9a84c;
+    }
+
+    .contact-banner p {
+      font-size: 0.92rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .contact-banner a {
+      color: #c9a84c;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.8rem;
+      color: #888;
+      border-top: 1px solid #ddd;
+    }
+
+    footer a { color: #1a2a4a; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">Wisconsin State Council  |  Knights of Columbus</div>
+
+<header>
+  <div class="emblem">⚜️</div>
+  <h1>Tootsie Roll Program Report <span>FAQ</span></h1>
+  <p class="subtitle">
+    Common questions to help Knights complete the Tootsie Roll Program Report submission form. 
+    Select your council, fill in your program data, and submit — it's that simple.
+  </p>
+  <a class="header-link" href="https://kocs-new-dev-wa.azurewebsites.net/TootsieRollProgramForm" target="_blank">
+    ▶ Open the Submission Form
+  </a>
+</header>
+<div class="divider"></div>
+
+<main>
+
+  <!-- Video callout -->
+  <div class="video-callout">
+    <div class="icon">🎬</div>
+    <p>
+      <strong>Prefer a walkthrough?</strong> Watch the 
+      <a href="https://youtu.be/v0WYkUwVsIw" target="_blank">Tootsie Roll Report Form Overview video</a> 
+      produced by Wisconsin KofC for a step-by-step visual guide to completing the form.
+    </p>
+  </div>
+
+  <!-- ── SECTION 1: Getting Started ── -->
+  <div class="faq-group">
+    <h2>Getting Started</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        What is the Tootsie Roll Program Report form?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        The Tootsie Roll Program Report is an online form used by Wisconsin KofC councils to report the results of their annual Tootsie Roll Drive — the fundraiser that supports individuals with intellectual disabilities in our communities. Councils use this form to submit their collection totals, program participation details, and related information to the State Council.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        Who should fill out this form?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        This form should be completed by the council officer or program director responsible for the Tootsie Roll Drive — typically the Grand Knight, Financial Secretary, or the designated Program Director. One submission per council is expected.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        Where do I find the form?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        The form is publicly accessible at:<br/><br/>
+        <a href="https://kocs-new-dev-wa.azurewebsites.net/TootsieRollProgramForm" target="_blank">
+          https://kocs-new-dev-wa.azurewebsites.net/TootsieRollProgramForm
+        </a>
+        <div class="note">No login is required to access or submit the form.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        What information should I have ready before I start?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Before opening the form, gather the following:
+        <ul>
+          <li>Your council number (e.g., 499, 524, etc.)</li>
+          <li>Total amount of money collected during the drive</li>
+          <li>Number of collection sites/locations used</li>
+          <li>Number of Knights who participated</li>
+          <li>Number of volunteer hours logged</li>
+          <li>Names of organizations or beneficiaries that received funds</li>
+          <li>Any additional program notes your District Deputy may require</li>
+        </ul>
+        <div class="note">Having this information ready before you start will allow you to complete the form in one session.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── SECTION 3: Filling Out the Form ── -->
+  <div class="faq-group">
+    <h2>Filling Out the Form</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        How do I report the total amount collected?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Enter the <strong>total dollar amount</strong> of all monetary donations collected during your council's Tootsie Roll Drive. This includes cash and coin collected at all locations and shifts. 
+        <ul>
+          <li>Do <strong>not</strong> include the cost or value of Tootsie Roll candy purchased.</li>
+          <li>Round to the nearest dollar if needed.</li>
+          <li>If multiple Knights collected separately, combine all totals before entering.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        What should I enter for beneficiary organizations?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        List the name(s) of the local organizations, programs, or individuals that received funds from your Tootsie Roll Drive. Examples include group homes, special education programs, disability service nonprofits, or diocesan programs. If funds have not yet been distributed, list the intended recipients.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        Are all fields required?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Required fields are typically marked with an asterisk (<strong>*</strong>). Optional fields provide additional context and are encouraged but not mandatory. Complete as many fields as possible to give the State Council a full picture of your council's program activity.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        What do I do when I am having problems changing the Program Chair, Email, Phone Number, or Total Collected?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Make sure to click the <strong>"Update"</strong> button directly after changing the information in the top section. The <strong>"Total Collected"</strong> field will <em>not</em> have a dollar sign — enter only a number in decimal format.
+        <div class="note">Example: Enter <strong>1234.78</strong> if you collected $1,234.78.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        The form shows a Tootsie Roll Cost, but we already paid for them — are we being charged twice?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        No — you are not being charged twice. The form displays the Tootsie Roll Cost along with other costs for <strong>transparency of the cost breakdown</strong>. The costs and Admin cost are <strong>automatically subtracted</strong> from your total collected amount. This is for informational purposes only.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        How do I know how much to send to the State Council?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Please see the line titled <strong>"Make Check Payable to State Council"</strong> on the form. That amount is what your council should remit to the State Council.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        How much does our council have available to send to charity?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Please see the line titled <strong>"Council Share"</strong> at the bottom of the form. This is the amount your council retains and may distribute to local charitable organizations.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        Who do I put in as Program Director?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Please check <strong>Officers Online</strong> to determine who is assigned as your council's Program Director. Use that individual's name in the Program Director field on the form.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── SECTION 4: Submitting the Form ── -->
+  <div class="faq-group">
+    <h2>Submitting the Form</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        How do I know my submission was successful?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        After clicking the submit button, you should see a <strong>confirmation message</strong> on the screen indicating your report was received. If you provided an email address, a confirmation email may also be sent. 
+        <div class="note">If you do not see a confirmation message, do not submit again — contact your District Deputy or the State Office to verify receipt.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        Can I save my progress and come back later?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        The form does not currently support saving a draft. We recommend gathering all required information before starting so you can complete it in one session. The form typically takes less than 10 minutes to complete when you have your data ready.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        I submitted incorrect information — can I fix it?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Do <strong>not</strong> submit the form a second time. Instead, contact your District Deputy or the Wisconsin State Council office as soon as possible and provide the correct information. Corrections can be made on the administrative side.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        What is the submission deadline?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        The deadline is communicated by the State Council each year. Check your council communications, the <a href="https://wikofc.org" target="_blank">wikofc.org</a> website, or contact your District Deputy for the current year's deadline. Late submissions may not be counted in state totals.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        What do I do if I submitted the form but did not receive a copy?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        The following people automatically receive a copy of the submitted form:
+        <ul>
+          <li>Grand Knight (GK)</li>
+          <li>Council Program Director</li>
+          <li>District Deputy (DD)</li>
+          <li>State ID Program Director</li>
+          <li>State Administrative Manager</li>
+        </ul>
+        Please reach out to one of the above individuals to request a copy.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── SECTION 5: Technical Issues ── -->
+  <div class="faq-group">
+    <h2>Technical Issues</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        The form won't load or is showing an error — what should I do?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Try the following steps:
+        <ul>
+          <li>Refresh the page and try again.</li>
+          <li>Clear your browser cache and cookies, then reload.</li>
+          <li>Try a different browser (Chrome, Firefox, Edge).</li>
+          <li>Ensure you have a stable internet connection.</li>
+        </ul>
+        If the issue persists, contact the State Council office and describe the error you're seeing.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        The form won't submit — what should I check?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        First, make sure all required fields (marked with <strong>*</strong>) are filled in. Look for any red error messages near specific fields. If everything appears correct and the form still won't submit, take a screenshot of the page and contact your District Deputy or the State Office for help.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        Does the form work on mobile devices?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        The form is accessible on mobile devices, but for the best experience we recommend completing it on a desktop or laptop computer where you can easily reference your collected data.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Contact Banner ── -->
+  <div class="contact-banner">
+    <h3>Still have questions?</h3>
+    <p>
+      Contact your <strong>District Deputy</strong> or reach out to the Wisconsin State Council office.<br/><br/>
+      📍 4297 W Beltline Hwy, Madison, WI 53711  |  📞 608-274-5750<br/><br/>
+      Or visit <a href="https://wikofc.org/Contact-Us" target="_blank">wikofc.org/Contact-Us</a> for more options.
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <a href="https://wikofc.org" target="_blank">Wisconsin State Council – Knights of Columbus</a>
+   |  4297 W Beltline Hwy, Madison, WI 53711  |  608-274-5750<br/>
+  <span style="margin-top:6px; display:inline-block;">© 2025 Knights of Columbus  |  All rights reserved.</span>
+</footer>
+
+<script>
+  function toggle(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+
+    document.querySelectorAll('.faq-question.open').forEach(q => {
+      q.classList.remove('open');
+      q.nextElementSibling.classList.remove('open');
+    });
+
+    if (!isOpen) {
+      btn.classList.add('open');
+      answer.classList.add('open');
+    }
+  }
+</script>
+
+</body>
+</html>
